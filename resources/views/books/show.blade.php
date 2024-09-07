@@ -34,6 +34,9 @@
         </tr>
              
     </table>
+    <p>
+        <a class="btn btn-primary" href="{{route('books.edit',$book->id)}}">Update</a>
+    </p>
     
 @endsection
 

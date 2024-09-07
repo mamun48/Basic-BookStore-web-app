@@ -71,4 +71,28 @@ class BookController extends Controller
         $book->delete();
         return redirect()->route('books.index');
     }
+
+    public function edit($id)
+    {
+        $book = Book::find($id);
+        return view('books.update',compact('book'));
+    }
+    public function update(Request $request,$id)
+    {
+        $rules = [
+            'title' => 'required',
+            'author' => 'required',
+            'isbn' => 'required|size:13',
+            'stock' => 'required|numeric|integer|gte:0',
+            'price' => 'required|numeric'
+        ];
+        $messeges = [
+            'stock.gte' =>'Stock should be geater than or equal to 0',
+        ];
+
+        $request->validate($rules,$messeges);
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+        return redirect(route('books.show',$book->id));
+    }
 }
